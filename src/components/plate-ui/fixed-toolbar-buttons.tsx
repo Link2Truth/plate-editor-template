@@ -13,14 +13,12 @@ import {
   FontBackgroundColorPlugin,
   FontColorPlugin,
 } from '@udecode/plate-font/react';
-import { KbdPlugin } from '@udecode/plate-kbd/react';
 import { useEditorReadOnly } from '@udecode/plate/react';
 import {
   BaselineIcon,
   BoldIcon,
   Code2Icon,
   ItalicIcon,
-  KeyboardIcon,
   PaintBucketIcon,
   StrikethroughIcon,
   SubscriptIcon,
@@ -41,7 +39,6 @@ import {
 import { IndentTodoToolbarButton } from './indent-todo-toolbar-button';
 import { IndentToolbarButton } from './indent-toolbar-button';
 import { InsertDropdownMenu } from './insert-dropdown-menu';
-import { LineHeightDropdownMenu } from './line-height-dropdown-menu';
 import { MarkToolbarButton } from './mark-toolbar-button';
 import { OutdentToolbarButton } from './outdent-toolbar-button';
 import { SuperscriptAndSubscriptDropdownMenu } from "./superscript-and-subscript-dropdown-menu";
@@ -99,13 +96,6 @@ export function FixedToolbarButtons() {
               <Code2Icon />
             </MarkToolbarButton>
 
-            <MarkToolbarButton 
-              nodeType={KbdPlugin.key}
-              tooltip="Keyboard"
-            >
-              <KeyboardIcon />
-            </MarkToolbarButton>
-
             <ColorDropdownMenu
               nodeType={FontColorPlugin.key}
               tooltip="Text color"
@@ -134,7 +124,6 @@ export function FixedToolbarButtons() {
             <AlignDropdownMenu />
             <OutdentToolbarButton />
             <IndentToolbarButton />
-            <LineHeightDropdownMenu />
           </ToolbarGroup>
 
           <ToolbarGroup>

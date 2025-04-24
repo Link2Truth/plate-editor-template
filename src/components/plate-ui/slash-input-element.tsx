@@ -14,18 +14,22 @@ import {
   EquationPlugin,
   InlineEquationPlugin,
 } from '@udecode/plate-math/react';
+import { AudioPlugin, FilePlugin, ImagePlugin, VideoPlugin } from '@udecode/plate-media/react';
 import { TablePlugin } from '@udecode/plate-table/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import { type PlateEditor, ParagraphPlugin } from '@udecode/plate/react';
 import { PlateElement } from '@udecode/plate/react';
 import {
+  AudioLinesIcon,
   CalendarIcon,
   ChevronRightIcon,
   Code2,
   Columns3Icon,
+  FileIcon,
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
+  ImageIcon,
   ListIcon,
   ListOrdered,
   PilcrowIcon,
@@ -35,6 +39,7 @@ import {
   Square,
   Table,
   TableOfContentsIcon,
+  VideoIcon,
 } from 'lucide-react';
 
 import {
@@ -151,6 +156,36 @@ const groups: Group[] = [
         label: 'Blockquote',
         value: BlockquotePlugin.key,
       },
+    ].map((item) => ({
+      ...item,
+      onSelect: (editor, value) => {
+        insertBlock(editor, value);
+      },
+    })),
+  },
+  {
+    group: 'Media',
+    items: [
+      {
+        icon: <ImageIcon />,
+        label: 'Image',
+        value: ImagePlugin.key,
+      },
+      {
+        icon: <VideoIcon />,
+        label: 'Video',
+        value: VideoPlugin.key,
+      },
+      {
+        icon: <AudioLinesIcon />,
+        label: 'Audio',
+        value: AudioPlugin.key,
+      },
+      {
+        icon: <FileIcon />,
+        label: 'File',
+        value: FilePlugin.key,
+      }
     ].map((item) => ({
       ...item,
       onSelect: (editor, value) => {

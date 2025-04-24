@@ -9,7 +9,7 @@ import { all, createLowlight } from 'lowlight';
 const lowlight = createLowlight(all);
 
 export const basicNodesPlugins = [
-  HeadingPlugin.configure({ options: { levels: 3 } }),
+  HeadingPlugin.configure({ options: { levels: 6 } }),
   BlockquotePlugin,
   CodeBlockPlugin.configure({ options: { lowlight } }),
   BasicMarksPlugin,

@@ -121,7 +121,7 @@ export const Draggable = withRef<'div', PlateRenderElementProps>(
             <div
               className={cn(
                 'slate-blockToolbarWrapper',
-                'flex h-full items-center',
+                'flex h-full items-start',
                 isType(editor, element, [
                   HEADING_KEYS.h1,
                   HEADING_KEYS.h2,
@@ -135,7 +135,7 @@ export const Draggable = withRef<'div', PlateRenderElementProps>(
               <div
                 className={cn(
                   'slate-blockToolbar',
-                  'pointer-events-auto mr-2 flex items-center',
+                  'pointer-events-auto mr-2 flex',
                   isInColumn && 'mr-1.5'
                 )}
               >

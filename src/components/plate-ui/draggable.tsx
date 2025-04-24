@@ -219,21 +219,19 @@ const DragHandle = React.memo(() => {
   const element = useElement();
 
   return (
-    <>
-      <TooltipButton
-        variant="ghost"
-        className="h-6 w-4.5 p-0"
-        onClick={() => {
-          editor
-            .getApi(BlockSelectionPlugin)
-            .blockSelection.set(element.id as string);
-        }}
-        data-plate-prevent-deselect
-        tooltip="Drag to move"
-      >
-        <GripVertical className="text-muted-foreground" />
-      </TooltipButton>
-    </>
+    <TooltipButton
+      variant="ghost"
+      className="h-6 w-4.5 p-0"
+      onClick={() => {
+        editor
+          .getApi(BlockSelectionPlugin)
+          .blockSelection.set(element.id as string);
+      }}
+      data-plate-prevent-deselect
+      tooltip="Drag to move"
+    >
+      <GripVertical className="text-muted-foreground" />
+    </TooltipButton>
   );
 });
 

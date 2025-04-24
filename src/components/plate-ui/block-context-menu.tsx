@@ -1,21 +1,15 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { AIChatPlugin } from '@udecode/plate-ai/react';
-import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
-import { HEADING_KEYS } from '@udecode/plate-heading';
-import { IndentListPlugin } from '@udecode/plate-indent-list/react';
 import {
   BLOCK_CONTEXT_MENU_ID,
   BlockMenuPlugin,
   BlockSelectionPlugin,
 } from '@udecode/plate-selection/react';
-import {
-  ParagraphPlugin,
-  useEditorPlugin,
-  usePlateState,
-} from '@udecode/plate/react';
+import { useEditorPlugin, usePlateState } from '@udecode/plate/react';
+import { CopyIcon, SparklesIcon, TrashIcon } from 'lucide-react';
 
 import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 
@@ -24,9 +18,6 @@ import {
   ContextMenuContent,
   ContextMenuGroup,
   ContextMenuItem,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from './context-menu';
 
@@ -37,33 +28,6 @@ export function BlockContextMenu({ children }: { children: React.ReactNode }) {
   const [value, setValue] = useState<Value>(null);
   const isTouch = useIsTouchDevice();
   const [readOnly] = usePlateState('readOnly');
-
-  const handleTurnInto = useCallback(
-    (type: string) => {
-      editor
-        .getApi(BlockSelectionPlugin)
-        .blockSelection.getNodes()
-        .forEach(([node, path]) => {
-          if (node[IndentListPlugin.key]) {
-            editor.tf.unsetNodes([IndentListPlugin.key, 'indent'], {
-              at: path,
-            });
-          }
-
-          editor.tf.toggleBlock(type, { at: path });
-        });
-    },
-    [editor]
-  );
-
-  const handleAlign = useCallback(
-    (align: 'center' | 'left' | 'right') => {
-      editor
-        .getTransforms(BlockSelectionPlugin)
-        .blockSelection.setNodes({ align });
-    },
-    [editor]
-  );
 
   if (isTouch) {
     return children;
@@ -117,18 +81,10 @@ export function BlockContextMenu({ children }: { children: React.ReactNode }) {
               setValue('askAI');
             }}
           >
+            <SparklesIcon size={16} className="mr-2" />
             Ask AI
           </ContextMenuItem>
-          <ContextMenuItem
-            onClick={() => {
-              editor
-                .getTransforms(BlockSelectionPlugin)
-                .blockSelection.removeNodes();
-              editor.tf.focus();
-            }}
-          >
-            Delete
-          </ContextMenuItem>
+
           <ContextMenuItem
             onClick={() => {
               editor
@@ -136,69 +92,24 @@ export function BlockContextMenu({ children }: { children: React.ReactNode }) {
                 .blockSelection.duplicate();
             }}
           >
+            <CopyIcon size={16} className="mr-2" />
             Duplicate
-            {/* <ContextMenuShortcut>⌘ + D</ContextMenuShortcut> */}
           </ContextMenuItem>
-          <ContextMenuSub>
-            <ContextMenuSubTrigger>Turn into</ContextMenuSubTrigger>
-            <ContextMenuSubContent className="w-48">
-              <ContextMenuItem
-                onClick={() => handleTurnInto(ParagraphPlugin.key)}
-              >
-                Paragraph
-              </ContextMenuItem>
-
-              <ContextMenuItem onClick={() => handleTurnInto(HEADING_KEYS.h1)}>
-                Heading 1
-              </ContextMenuItem>
-              <ContextMenuItem onClick={() => handleTurnInto(HEADING_KEYS.h2)}>
-                Heading 2
-              </ContextMenuItem>
-              <ContextMenuItem onClick={() => handleTurnInto(HEADING_KEYS.h3)}>
-                Heading 3
-              </ContextMenuItem>
-              <ContextMenuItem
-                onClick={() => handleTurnInto(BlockquotePlugin.key)}
-              >
-                Blockquote
-              </ContextMenuItem>
-            </ContextMenuSubContent>
-          </ContextMenuSub>
         </ContextMenuGroup>
 
         <ContextMenuGroup>
           <ContextMenuItem
-            onClick={() =>
+            className="text-red-500"
+            onClick={() => {
               editor
                 .getTransforms(BlockSelectionPlugin)
-                .blockSelection.setIndent(1)
-            }
+                .blockSelection.removeNodes();
+              editor.tf.focus();
+            }}
           >
-            Indent
+            <TrashIcon size={16} className="mr-2" />
+            Delete
           </ContextMenuItem>
-          <ContextMenuItem
-            onClick={() =>
-              editor
-                .getTransforms(BlockSelectionPlugin)
-                .blockSelection.setIndent(-1)
-            }
-          >
-            Outdent
-          </ContextMenuItem>
-          <ContextMenuSub>
-            <ContextMenuSubTrigger>Align</ContextMenuSubTrigger>
-            <ContextMenuSubContent className="w-48">
-              <ContextMenuItem onClick={() => handleAlign('left')}>
-                Left
-              </ContextMenuItem>
-              <ContextMenuItem onClick={() => handleAlign('center')}>
-                Center
-              </ContextMenuItem>
-              <ContextMenuItem onClick={() => handleAlign('right')}>
-                Right
-              </ContextMenuItem>
-            </ContextMenuSubContent>
-          </ContextMenuSub>
         </ContextMenuGroup>
       </ContextMenuContent>
     </ContextMenu>

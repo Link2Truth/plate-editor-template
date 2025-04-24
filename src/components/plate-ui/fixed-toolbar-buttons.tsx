@@ -18,8 +18,8 @@ import {
   BaselineIcon,
   BoldIcon,
   Code2Icon,
+  HighlighterIcon,
   ItalicIcon,
-  PaintBucketIcon,
   StrikethroughIcon,
   SubscriptIcon,
   UnderlineIcon,
@@ -105,9 +105,9 @@ export function FixedToolbarButtons() {
 
             <ColorDropdownMenu
               nodeType={FontBackgroundColorPlugin.key}
-              tooltip="Background color"
+              tooltip="Hightlight"
             >
-              <PaintBucketIcon />
+              <HighlighterIcon />
             </ColorDropdownMenu>
 
             <SuperscriptAndSubscriptDropdownMenu 

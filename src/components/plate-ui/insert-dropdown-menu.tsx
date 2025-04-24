@@ -7,7 +7,6 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
 import { DatePlugin } from '@udecode/plate-date/react';
-import { ExcalidrawPlugin } from '@udecode/plate-excalidraw/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { TocPlugin } from '@udecode/plate-heading/react';
 import { HorizontalRulePlugin } from '@udecode/plate-horizontal-rule/react';
@@ -17,7 +16,7 @@ import {
   EquationPlugin,
   InlineEquationPlugin,
 } from '@udecode/plate-math/react';
-import { ImagePlugin, MediaEmbedPlugin } from '@udecode/plate-media/react';
+import { AudioPlugin, FilePlugin, ImagePlugin, VideoPlugin } from '@udecode/plate-media/react';
 import { TablePlugin } from '@udecode/plate-table/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import {
@@ -26,11 +25,12 @@ import {
   useEditorRef,
 } from '@udecode/plate/react';
 import {
+  AudioLinesIcon,
   CalendarIcon,
   ChevronRightIcon,
+  Code2Icon,
   Columns3Icon,
-  FileCodeIcon,
-  FilmIcon,
+  FileIcon,
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
@@ -39,7 +39,6 @@ import {
   ListIcon,
   ListOrderedIcon,
   MinusIcon,
-  PenToolIcon,
   PilcrowIcon,
   PlusIcon,
   QuoteIcon,
@@ -47,6 +46,7 @@ import {
   SquareIcon,
   TableIcon,
   TableOfContentsIcon,
+  VideoIcon,
 } from 'lucide-react';
 
 import {
@@ -107,7 +107,7 @@ const groups: Group[] = [
         value: TablePlugin.key,
       },
       {
-        icon: <FileCodeIcon />,
+        icon: <Code2Icon />,
         label: 'Code',
         value: CodeBlockPlugin.key,
       },
@@ -167,15 +167,20 @@ const groups: Group[] = [
         value: ImagePlugin.key,
       },
       {
-        icon: <FilmIcon />,
-        label: 'Embed',
-        value: MediaEmbedPlugin.key,
+        icon: <VideoIcon />,
+        label: 'Video',
+        value: VideoPlugin.key,
       },
       {
-        icon: <PenToolIcon />,
-        label: 'Excalidraw',
-        value: ExcalidrawPlugin.key,
+        icon: <AudioLinesIcon />,
+        label: 'Audio',
+        value: AudioPlugin.key,
       },
+      {
+        icon: <FileIcon />,
+        label: 'File',
+        value: FilePlugin.key,
+      }
     ].map((item) => ({
       ...item,
       onSelect: (editor, value) => {

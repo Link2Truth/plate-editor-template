@@ -29,6 +29,7 @@ import {
 import {
   insertAudioPlaceholder,
   insertFilePlaceholder,
+  insertImagePlaceholder,
   insertMedia,
   insertVideoPlaceholder,
 } from '@udecode/plate-media';
@@ -82,9 +83,8 @@ const insertBlockMap: Record<
   [EquationPlugin.key]: (editor) => insertEquation(editor, { select: true }),
   [FilePlugin.key]: (editor) => insertFilePlaceholder(editor, { select: true }),
   [ImagePlugin.key]: (editor) =>
-    insertMedia(editor, {
+    insertImagePlaceholder(editor, {
       select: true,
-      type: ImagePlugin.key,
     }),
   [MediaEmbedPlugin.key]: (editor) =>
     insertMedia(editor, {

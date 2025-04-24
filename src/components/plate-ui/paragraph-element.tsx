@@ -10,7 +10,7 @@ export const ParagraphElement = withRef<typeof PlateElement>(
     return (
       <PlateElement
         ref={ref}
-        className={cn(className, 'm-0 px-0 py-1')}
+        className={cn(className, 'my-1 px-0 py-1')}
         {...props}
       >
         {children}

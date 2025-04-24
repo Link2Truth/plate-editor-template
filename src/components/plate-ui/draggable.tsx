@@ -37,6 +37,7 @@ import { GripVertical } from 'lucide-react';
 
 import { STRUCTURAL_TYPES } from '@/components/editor/transforms';
 
+import { DraggableInsertButton } from './draggable-insert-button';
 import { TooltipButton } from './tooltip';
 
 const UNDRAGGABLE_KEYS = [
@@ -138,6 +139,7 @@ export const Draggable = withRef<'div', PlateRenderElementProps>(
                   isInColumn && 'mr-1.5'
                 )}
               >
+                {!isInColumn && !isInTable && <DraggableInsertButton />}
                 <div ref={handleRef} className="size-4 h-full">
                   <DragHandle />
                 </div>
@@ -187,8 +189,7 @@ const Gutter = React.forwardRef<
         isNodeType(HEADING_KEYS.h1) && 'pb-0 text-[1.875em]',
         isNodeType(HEADING_KEYS.h2) && 'pb-0 text-[1.5em]',
         isNodeType(HEADING_KEYS.h3) && 'pb-0 text-[1.25em]',
-        isNodeType([HEADING_KEYS.h4, HEADING_KEYS.h5]) &&
-          'pb-0 text-[1.1em]',
+        isNodeType([HEADING_KEYS.h4, HEADING_KEYS.h5]) && 'pb-0 text-[1.1em]',
         isNodeType(HEADING_KEYS.h6) && 'pb-0',
         isNodeType(ParagraphPlugin.key) && 'pb-0',
         isNodeType(['ul', 'ol']) && 'pb-0',
@@ -218,19 +219,21 @@ const DragHandle = React.memo(() => {
   const element = useElement();
 
   return (
-    <TooltipButton
-      variant="ghost"
-      className="h-6 w-4.5 p-0"
-      onClick={() => {
-        editor
-          .getApi(BlockSelectionPlugin)
-          .blockSelection.set(element.id as string);
-      }}
-      data-plate-prevent-deselect
-      tooltip="Drag to move"
-    >
-      <GripVertical className="text-muted-foreground" />
-    </TooltipButton>
+    <>
+      <TooltipButton
+        variant="ghost"
+        className="h-6 w-4.5 p-0"
+        onClick={() => {
+          editor
+            .getApi(BlockSelectionPlugin)
+            .blockSelection.set(element.id as string);
+        }}
+        data-plate-prevent-deselect
+        tooltip="Drag to move"
+      >
+        <GripVertical className="text-muted-foreground" />
+      </TooltipButton>
+    </>
   );
 });
 

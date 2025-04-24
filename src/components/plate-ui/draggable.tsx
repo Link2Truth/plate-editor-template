@@ -135,12 +135,14 @@ export const Draggable = withRef<'div', PlateRenderElementProps>(
               <div
                 className={cn(
                   'slate-blockToolbar',
-                  'pointer-events-auto mr-1 flex items-center',
+                  'pointer-events-auto mr-2 flex items-center',
                   isInColumn && 'mr-1.5'
                 )}
               >
-                {!isInColumn && !isInTable && <DraggableInsertButton />}
-                <div ref={handleRef} className="size-4 h-full">
+                
+                {!isInColumn && !isInTable && <div><DraggableInsertButton /></div>}
+                
+                <div ref={handleRef}>
                   <DragHandle />
                 </div>
               </div>
@@ -221,7 +223,7 @@ const DragHandle = React.memo(() => {
   return (
     <TooltipButton
       variant="ghost"
-      className="h-6 w-4.5 p-0"
+      className="size-6 p-1"
       onClick={() => {
         editor
           .getApi(BlockSelectionPlugin)

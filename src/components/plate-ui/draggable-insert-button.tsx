@@ -23,7 +23,7 @@ export const DraggableInsertButton = () => {
   return (
     <TooltipButton
       variant="ghost"
-      className="size-6 shrink-0 p-1"
+      className="size-6 p-1"
       onClick={(event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -41,7 +41,7 @@ export const DraggableInsertButton = () => {
         side: 'top',
       }}
     >
-      <Plus className="size-6 text-muted-foreground/70" />
+      <Plus className="text-muted-foreground" />
     </TooltipButton>
   );
 };

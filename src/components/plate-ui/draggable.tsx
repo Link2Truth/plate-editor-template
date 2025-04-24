@@ -223,7 +223,7 @@ const DragHandle = React.memo(() => {
   return (
     <TooltipButton
       variant="ghost"
-      className="size-6 p-1"
+      className="size-8 p-1"
       onClick={() => {
         editor
           .getApi(BlockSelectionPlugin)

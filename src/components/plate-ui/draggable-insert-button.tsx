@@ -23,7 +23,7 @@ export const DraggableInsertButton = () => {
   return (
     <TooltipButton
       variant="ghost"
-      className="size-6 p-1"
+      className="size-8 p-1"
       onClick={(event) => {
         event.stopPropagation();
         event.preventDefault();

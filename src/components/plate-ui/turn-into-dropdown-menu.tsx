@@ -8,6 +8,7 @@ import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { INDENT_LIST_KEYS, ListStyleType } from '@udecode/plate-indent-list';
+import { EquationPlugin } from '@udecode/plate-math/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import {
   ParagraphPlugin,
@@ -21,10 +22,14 @@ import {
   Heading1Icon,
   Heading2Icon,
   Heading3Icon,
+  Heading4Icon,
+  Heading5Icon,
+  Heading6Icon,
   ListIcon,
   ListOrderedIcon,
   PilcrowIcon,
   QuoteIcon,
+  RadicalIcon,
   SquareIcon,
 } from 'lucide-react';
 
@@ -44,7 +49,7 @@ import {
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
 
-const turnIntoItems = [
+export const turnIntoItems = [
   {
     icon: <PilcrowIcon />,
     keywords: ['paragraph'],
@@ -68,6 +73,24 @@ const turnIntoItems = [
     keywords: ['subtitle', 'h3'],
     label: 'Heading 3',
     value: HEADING_KEYS.h3,
+  },
+  {
+    icon: <Heading4Icon />,
+    keywords: ['subtitle', 'h4'],
+    label: 'Heading 4',
+    value: HEADING_KEYS.h4,
+  },
+  {
+    icon: <Heading5Icon />,
+    keywords: ['subtitle', 'h5'],
+    label: 'Heading 5',
+    value: HEADING_KEYS.h5,
+  },
+  {
+    icon: <Heading6Icon />,
+    keywords: ['subtitle', 'h6'],
+    label: 'Heading 6',
+    value: HEADING_KEYS.h6,
   },
   {
     icon: <ListIcon />,
@@ -109,6 +132,11 @@ const turnIntoItems = [
     icon: <Columns3Icon />,
     label: '3 columns',
     value: 'action_three_columns',
+  },
+  {
+    icon: <RadicalIcon />,
+    label: 'Equation',
+    value: EquationPlugin.key,
   },
 ];
 

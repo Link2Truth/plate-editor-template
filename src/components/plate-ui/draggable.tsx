@@ -37,6 +37,7 @@ import { GripVertical } from 'lucide-react';
 
 import { STRUCTURAL_TYPES } from '@/components/editor/transforms';
 
+import { BlockMenu } from './block-menu';
 import { DraggableInsertButton } from './draggable-insert-button';
 import { TooltipButton } from './tooltip';
 
@@ -219,26 +220,30 @@ const Gutter = React.forwardRef<
   );
 });
 
-const DragHandle = React.memo(() => {
+const DragHandle = React.memo(({ handleRef, ...props }: any) => {
   const editor = useEditorRef();
   const element = useElement();
   const path = usePath();
   const isInColumn = path.length === 3;
 
   return (
-    <TooltipButton
-      variant="ghost"
-      className={cn('size-8 p-1', isInColumn && 'h-6 w-4')}
-      onClick={() => {
-        editor
-          .getApi(BlockSelectionPlugin)
-          .blockSelection.set(element.id as string);
-      }}
-      data-plate-prevent-deselect
-      tooltip="Drag to move"
-    >
-      <GripVertical className="text-muted-foreground" />
-    </TooltipButton>
+    <BlockMenu id={element.id as string}>
+      <TooltipButton
+        {...props}
+        ref={handleRef}
+        variant="ghost"
+        className={cn('size-8 p-1', isInColumn && 'h-6 w-4')}
+        onMouseDown={() => {
+          editor
+            .getApi(BlockSelectionPlugin)
+            .blockSelection.addSelectedRow(element.id as string);
+        }}
+        data-plate-prevent-deselect
+        tooltip="Drag to move"
+      >
+        <GripVertical className="text-muted-foreground" />
+      </TooltipButton>
+    </BlockMenu>
   );
 });
 

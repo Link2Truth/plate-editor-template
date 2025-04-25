@@ -139,9 +139,12 @@ export const Draggable = withRef<'div', PlateRenderElementProps>(
                   isInColumn && 'mr-1.5'
                 )}
               >
-                
-                {!isInColumn && !isInTable && <div><DraggableInsertButton /></div>}
-                
+                {!isInColumn && !isInTable && (
+                  <div>
+                    <DraggableInsertButton />
+                  </div>
+                )}
+
                 <div ref={handleRef}>
                   <DragHandle />
                 </div>
@@ -205,7 +208,7 @@ const Gutter = React.forwardRef<
           ColumnPlugin.key,
         ]) && 'pb-0',
         isNodeType([PlaceholderPlugin.key, TablePlugin.key]) && 'pb-0',
-        isInColumn && 'mt-2 h-4 pt-0',
+        isInColumn && 'm-1 h-4 pt-0',
         className
       )}
       contentEditable={false}
@@ -219,11 +222,13 @@ const Gutter = React.forwardRef<
 const DragHandle = React.memo(() => {
   const editor = useEditorRef();
   const element = useElement();
+  const path = usePath();
+  const isInColumn = path.length === 3;
 
   return (
     <TooltipButton
       variant="ghost"
-      className="size-8 p-1"
+      className={cn('size-8 p-1', isInColumn && 'h-6 w-4')}
       onClick={() => {
         editor
           .getApi(BlockSelectionPlugin)

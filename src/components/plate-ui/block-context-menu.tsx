@@ -7,9 +7,16 @@ import {
   BLOCK_CONTEXT_MENU_ID,
   BlockMenuPlugin,
   BlockSelectionPlugin,
+  copySelectedBlocks,
 } from '@udecode/plate-selection/react';
 import { useEditorPlugin, usePlateState } from '@udecode/plate/react';
-import { CopyIcon, SparklesIcon, TrashIcon } from 'lucide-react';
+import {
+  ClipboardCopyIcon,
+  CopyIcon,
+  ScissorsIcon,
+  SparklesIcon,
+  TrashIcon,
+} from 'lucide-react';
 
 import { useIsTouchDevice } from '@/hooks/use-is-touch-device';
 
@@ -87,12 +94,33 @@ export function BlockContextMenu({ children }: { children: React.ReactNode }) {
 
           <ContextMenuItem
             onClick={() => {
+              copySelectedBlocks(editor);
+            }}
+          >
+            <CopyIcon size={16} className="mr-2" />
+            Copy
+          </ContextMenuItem>
+
+          <ContextMenuItem
+            onClick={() => {
+              copySelectedBlocks(editor);
+              editor
+                .getTransforms(BlockSelectionPlugin)
+                .blockSelection.removeNodes();
+            }}
+          >
+            <ScissorsIcon size={16} className="mr-2" />
+            Cut
+          </ContextMenuItem>
+
+          <ContextMenuItem
+            onClick={() => {
               editor
                 .getTransforms(BlockSelectionPlugin)
                 .blockSelection.duplicate();
             }}
           >
-            <CopyIcon size={16} className="mr-2" />
+            <ClipboardCopyIcon size={16} className="mr-2" />
             Duplicate
           </ContextMenuItem>
         </ContextMenuGroup>

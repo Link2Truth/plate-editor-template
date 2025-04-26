@@ -201,6 +201,7 @@ const groups: Group[] = [
       },
     ].map((item) => ({
       ...item,
+      focusEditor: false,
       onSelect: (editor, value) => {
         insertBlock(editor, value);
       },

@@ -195,6 +195,7 @@ const groups: Group[] = [
       },
     ].map((item) => ({
       ...item,
+      focusEditor: false,
       onSelect: (editor, value) => {
         insertBlock(editor, value);
       },
@@ -273,17 +274,19 @@ export function InsertDropdownMenu(props: DropdownMenuProps) {
       >
         {groups.map(({ group, items: nestedItems }) => (
           <DropdownMenuGroup key={group} label={group}>
-            {nestedItems.map(({ icon, label, value, onSelect }) => (
+            {nestedItems.map((item) => (
               <DropdownMenuItem
-                key={value}
+                key={item.value}
                 className="min-w-[180px]"
                 onSelect={() => {
-                  onSelect(editor, value);
-                  editor.tf.focus();
+                  item.onSelect(editor, item.value);
+                  if (item.focusEditor !== false) {
+                    editor.tf.focus();
+                  }
                 }}
               >
-                {icon}
-                {label}
+                {item.icon}
+                {item.label}
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>

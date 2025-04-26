@@ -5,10 +5,10 @@ import React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
 import { INDENT_LIST_KEYS, ListStyleType } from '@udecode/plate-indent-list';
-import { EquationPlugin } from '@udecode/plate-math/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import {
   ParagraphPlugin,
@@ -25,11 +25,11 @@ import {
   Heading4Icon,
   Heading5Icon,
   Heading6Icon,
+  LightbulbIcon,
   ListIcon,
   ListOrderedIcon,
   PilcrowIcon,
   QuoteIcon,
-  RadicalIcon,
   SquareIcon,
 } from 'lucide-react';
 
@@ -129,14 +129,14 @@ export const turnIntoItems = [
     value: BlockquotePlugin.key,
   },
   {
+    icon: <LightbulbIcon />,
+    label: 'Callout',
+    value: CalloutPlugin.key,
+  },
+  {
     icon: <Columns3Icon />,
     label: '3 columns',
     value: 'action_three_columns',
-  },
-  {
-    icon: <RadicalIcon />,
-    label: 'Equation',
-    value: EquationPlugin.key,
   },
 ];
 

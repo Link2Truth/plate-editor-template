@@ -66,7 +66,7 @@ export const ColumnElement = withHOC(
           ref={useComposedRef(ref, previewRef)}
           className={cn(
             className,
-            'h-full px-2 pt-2 group-first/column:pl-0 group-last/column:pr-0'
+            'h-full px-2 group-first/column:pl-0 group-last/column:pr-0'
           )}
           {...props}
         >

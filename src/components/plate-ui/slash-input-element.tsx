@@ -5,6 +5,7 @@ import React from 'react';
 import { withRef } from '@udecode/cn';
 import { AIChatPlugin } from '@udecode/plate-ai/react';
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
 import { DatePlugin } from '@udecode/plate-date/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
@@ -29,7 +30,7 @@ import {
   CalendarIcon,
   ChevronRightIcon,
   Code2,
-  Columns3Icon,
+  Columns2Icon,
   FileIcon,
   Heading1Icon,
   Heading2Icon,
@@ -62,7 +63,6 @@ import {
   InlineComboboxInput,
   InlineComboboxItem,
 } from './inline-combobox';
-import { CalloutPlugin } from '@udecode/plate-callout/react';
 
 type Group = {
   group: string;
@@ -216,9 +216,9 @@ const groups: Group[] = [
         value: TocPlugin.key,
       },
       {
-        icon: <Columns3Icon />,
-        label: '3 columns',
-        value: 'action_three_columns',
+        icon: <Columns2Icon />,
+        label: 'Columns',
+        value: 'action_two_columns',
       },
       {
         focusEditor: false,

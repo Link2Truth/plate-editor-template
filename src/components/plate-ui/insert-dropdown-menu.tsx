@@ -5,6 +5,7 @@ import React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { BlockquotePlugin } from '@udecode/plate-block-quote/react';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 import { CodeBlockPlugin } from '@udecode/plate-code-block/react';
 import { DatePlugin } from '@udecode/plate-date/react';
 import { HEADING_KEYS } from '@udecode/plate-heading';
@@ -34,7 +35,7 @@ import {
   CalendarIcon,
   ChevronRightIcon,
   Code2Icon,
-  Columns3Icon,
+  Columns2Icon,
   FileIcon,
   Heading1Icon,
   Heading2Icon,
@@ -69,7 +70,6 @@ import {
   useOpenState,
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
-import { CalloutPlugin } from '@udecode/plate-callout/react';
 
 type Group = {
   group: string;
@@ -209,9 +209,9 @@ const groups: Group[] = [
         value: TocPlugin.key,
       },
       {
-        icon: <Columns3Icon />,
-        label: '3 columns',
-        value: 'action_three_columns',
+        icon: <Columns2Icon />,
+        label: 'Columns',
+        value: 'action_two_columns',
       },
       {
         focusEditor: false,

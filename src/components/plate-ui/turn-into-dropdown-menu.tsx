@@ -17,7 +17,7 @@ import {
 } from '@udecode/plate/react';
 import {
   ChevronRightIcon,
-  Columns3Icon,
+  Columns2Icon,
   FileCodeIcon,
   Heading1Icon,
   Heading2Icon,
@@ -134,9 +134,9 @@ export const turnIntoItems = [
     value: CalloutPlugin.key,
   },
   {
-    icon: <Columns3Icon />,
-    label: '3 columns',
-    value: 'action_three_columns',
+    icon: <Columns2Icon />,
+    label: 'Columns',
+    value: 'action_two_columns',
   },
 ];
 

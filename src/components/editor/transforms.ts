@@ -55,7 +55,7 @@ export const STRUCTURAL_TYPES: string[] = [
   TableCellPlugin.key,
 ];
 
-const ACTION_THREE_COLUMNS = 'action_three_columns';
+const ACTION_TWO_COLUMNS = 'action_two_columns';
 
 const insertList = (editor: PlateEditor, type: string) => {
   editor.tf.insertNodes(
@@ -74,8 +74,8 @@ const insertBlockMap: Record<
   [INDENT_LIST_KEYS.todo]: insertList,
   [ListStyleType.Decimal]: insertList,
   [ListStyleType.Disc]: insertList,
-  [ACTION_THREE_COLUMNS]: (editor) =>
-    insertColumnGroup(editor, { columns: 3, select: true }),
+  [ACTION_TWO_COLUMNS]: (editor) =>
+    insertColumnGroup(editor, { columns: 2, select: true }),
   [AudioPlugin.key]: (editor) =>
     insertAudioPlaceholder(editor, { select: true }),
   [CalloutPlugin.key]: (editor) => insertCallout(editor, { select: true }),
@@ -158,7 +158,7 @@ const setBlockMap: Record<
   [INDENT_LIST_KEYS.todo]: setList,
   [ListStyleType.Decimal]: setList,
   [ListStyleType.Disc]: setList,
-  [ACTION_THREE_COLUMNS]: (editor) => toggleColumnGroup(editor, { columns: 3 }),
+  [ACTION_TWO_COLUMNS]: (editor) => toggleColumnGroup(editor, { columns: 2 }),
 };
 
 export const setBlockType = (

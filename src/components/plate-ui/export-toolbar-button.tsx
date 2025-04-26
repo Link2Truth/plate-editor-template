@@ -22,6 +22,7 @@ import {
   BaseUnderlinePlugin,
 } from '@udecode/plate-basic-marks';
 import { BaseBlockquotePlugin } from '@udecode/plate-block-quote';
+import { BaseCalloutPlugin } from '@udecode/plate-callout';
 import {
   BaseCodeBlockPlugin,
   BaseCodeLinePlugin,
@@ -73,6 +74,7 @@ import { all, createLowlight } from 'lowlight';
 import { ArrowDownToLineIcon } from 'lucide-react';
 
 import { BlockquoteElementStatic } from '@/components/plate-ui/blockquote-element-static';
+import { CalloutElementStatic } from '@/components/plate-ui/callout-element-static';
 import { CodeBlockElementStatic } from '@/components/plate-ui/code-block-element-static';
 import { CodeLeafStatic } from '@/components/plate-ui/code-leaf-static';
 import { CodeLineElementStatic } from '@/components/plate-ui/code-line-element-static';
@@ -81,6 +83,8 @@ import { ColumnElementStatic } from '@/components/plate-ui/column-element-static
 import { ColumnGroupElementStatic } from '@/components/plate-ui/column-group-element-static';
 import { CommentLeafStatic } from '@/components/plate-ui/comment-leaf-static';
 import { DateElementStatic } from '@/components/plate-ui/date-element-static';
+import { EditorStatic } from '@/components/plate-ui/editor-static';
+import { EquationElementStatic } from '@/components/plate-ui/equation-element-static';
 import { HeadingElementStatic } from '@/components/plate-ui/heading-element-static';
 import { HighlightLeafStatic } from '@/components/plate-ui/highlight-leaf-static';
 import { HrElementStatic } from '@/components/plate-ui/hr-element-static';
@@ -93,6 +97,7 @@ import {
   TodoLiStatic,
   TodoMarkerStatic,
 } from '@/components/plate-ui/indent-todo-marker-static';
+import { InlineEquationElementStatic } from '@/components/plate-ui/inline-equation-element-static';
 import { KbdLeafStatic } from '@/components/plate-ui/kbd-leaf-static';
 import { LinkElementStatic } from '@/components/plate-ui/link-element-static';
 import { MediaAudioElementStatic } from '@/components/plate-ui/media-audio-element-static';
@@ -117,9 +122,6 @@ import {
   DropdownMenuTrigger,
   useOpenState,
 } from './dropdown-menu';
-import { EditorStatic } from './editor-static';
-import { EquationElementStatic } from './equation-element-static';
-import { InlineEquationElementStatic } from './inline-equation-element-static';
 import { ToolbarButton } from './toolbar';
 
 const siteUrl = 'https://platejs.org';
@@ -202,6 +204,7 @@ export function ExportToolbarButton({ children, ...props }: DropdownMenuProps) {
       [BaseAudioPlugin.key]: MediaAudioElementStatic,
       [BaseBlockquotePlugin.key]: BlockquoteElementStatic,
       [BaseBoldPlugin.key]: withProps(SlateLeaf, { as: 'strong' }),
+      [BaseCalloutPlugin.key]: CalloutElementStatic,
       [BaseCodeBlockPlugin.key]: CodeBlockElementStatic,
       [BaseCodeLinePlugin.key]: CodeLineElementStatic,
       [BaseCodePlugin.key]: CodeLeafStatic,

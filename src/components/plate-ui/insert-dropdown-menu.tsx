@@ -16,7 +16,12 @@ import {
   EquationPlugin,
   InlineEquationPlugin,
 } from '@udecode/plate-math/react';
-import { AudioPlugin, FilePlugin, ImagePlugin, VideoPlugin } from '@udecode/plate-media/react';
+import {
+  AudioPlugin,
+  FilePlugin,
+  ImagePlugin,
+  VideoPlugin,
+} from '@udecode/plate-media/react';
 import { TablePlugin } from '@udecode/plate-table/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import {
@@ -35,6 +40,7 @@ import {
   Heading2Icon,
   Heading3Icon,
   ImageIcon,
+  LightbulbIcon,
   Link2Icon,
   ListIcon,
   ListOrderedIcon,
@@ -63,6 +69,7 @@ import {
   useOpenState,
 } from './dropdown-menu';
 import { ToolbarButton } from './toolbar';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 
 type Group = {
   group: string;
@@ -115,6 +122,11 @@ const groups: Group[] = [
         icon: <QuoteIcon />,
         label: 'Quote',
         value: BlockquotePlugin.key,
+      },
+      {
+        icon: <LightbulbIcon />,
+        label: 'Callout',
+        value: CalloutPlugin.key,
       },
       {
         icon: <MinusIcon />,
@@ -180,7 +192,7 @@ const groups: Group[] = [
         icon: <FileIcon />,
         label: 'File',
         value: FilePlugin.key,
-      }
+      },
     ].map((item) => ({
       ...item,
       onSelect: (editor, value) => {

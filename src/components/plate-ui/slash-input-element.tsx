@@ -14,7 +14,12 @@ import {
   EquationPlugin,
   InlineEquationPlugin,
 } from '@udecode/plate-math/react';
-import { AudioPlugin, FilePlugin, ImagePlugin, VideoPlugin } from '@udecode/plate-media/react';
+import {
+  AudioPlugin,
+  FilePlugin,
+  ImagePlugin,
+  VideoPlugin,
+} from '@udecode/plate-media/react';
 import { TablePlugin } from '@udecode/plate-table/react';
 import { TogglePlugin } from '@udecode/plate-toggle/react';
 import { type PlateEditor, ParagraphPlugin } from '@udecode/plate/react';
@@ -30,6 +35,7 @@ import {
   Heading2Icon,
   Heading3Icon,
   ImageIcon,
+  LightbulbIcon,
   ListIcon,
   ListOrdered,
   PilcrowIcon,
@@ -56,6 +62,7 @@ import {
   InlineComboboxInput,
   InlineComboboxItem,
 } from './inline-combobox';
+import { CalloutPlugin } from '@udecode/plate-callout/react';
 
 type Group = {
   group: string;
@@ -151,6 +158,12 @@ const groups: Group[] = [
         value: TablePlugin.key,
       },
       {
+        icon: <LightbulbIcon />,
+        keywords: ['callout'],
+        label: 'Callout',
+        value: CalloutPlugin.key,
+      },
+      {
         icon: <Quote />,
         keywords: ['citation', 'blockquote', 'quote', '>'],
         label: 'Blockquote',
@@ -185,7 +198,7 @@ const groups: Group[] = [
         icon: <FileIcon />,
         label: 'File',
         value: FilePlugin.key,
-      }
+      },
     ].map((item) => ({
       ...item,
       onSelect: (editor, value) => {

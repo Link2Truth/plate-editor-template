@@ -10,6 +10,7 @@ import {
   FontBackgroundColorPlugin,
   FontColorPlugin,
 } from '@udecode/plate-font/react';
+import { ColumnPlugin } from '@udecode/plate-layout/react';
 import {
   AudioPlugin,
   FilePlugin,
@@ -231,6 +232,12 @@ const mediaMenuItems = [
   },
 ];
 
+const columnMenuItems = [
+  {
+    items: [blockMenuItems.copy, blockMenuItems.cut, blockMenuItems.delete],
+  },
+];
+
 export function BlockMenuItems() {
   const [searchValue] = useComboboxValueState();
   const selectedBlocks = useBlockSelectionNodes();
@@ -249,7 +256,17 @@ export function BlockMenuItems() {
         ].includes(item[0].type as any)
       );
 
-    const items = isMedia ? mediaMenuItems : orderedMenuItems;
+    const isColumn =
+      selectedBlocks.length === 1 &&
+      selectedBlocks.some((item) =>
+        [ColumnPlugin.key].includes(item[0].type as any)
+      );
+
+    const items = isMedia
+      ? mediaMenuItems
+      : isColumn
+        ? columnMenuItems
+        : orderedMenuItems;
 
     return filterMenuGroups(items, searchValue) || items;
   }, [selectedBlocks, searchValue]);

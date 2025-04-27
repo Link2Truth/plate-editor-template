@@ -5,8 +5,13 @@ import React, { useState } from 'react';
 import { BlockMenuPlugin } from '@udecode/plate-selection/react';
 import { useEditorRef } from '@udecode/plate/react';
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/plate-ui/popover';
+
 import { BlockMenuItems } from './block-menu-items';
-import { ComboboxList, Menu, MenuContent, MenuTrigger } from './menu';
 
 export function BlockMenu({
   id,
@@ -19,29 +24,21 @@ export function BlockMenu({
   const [open, setOpen] = useState(false);
 
   return (
-    <Menu
+    <Popover
       open={open}
       onOpenChange={(open) => {
         setOpen(open);
-
         if (!open) {
           editor.getApi(BlockMenuPlugin).blockMenu.hide();
         } else if (id) {
           editor.getApi(BlockMenuPlugin).blockMenu.show(id);
         }
       }}
-      placement="left"
-      trigger={<MenuTrigger>{children}</MenuTrigger>}
     >
-      <MenuContent
-        autoFocusOnHide={false}
-        preventBodyScroll={children ? false : true}
-        portal
-      >
-        <ComboboxList>
-          <BlockMenuItems />
-        </ComboboxList>
-      </MenuContent>
-    </Menu>
+      <PopoverTrigger asChild>{children}</PopoverTrigger>
+      <PopoverContent className="m-0 h-0 w-0 p-0">
+        <BlockMenuItems />
+      </PopoverContent>
+    </Popover>
   );
 }

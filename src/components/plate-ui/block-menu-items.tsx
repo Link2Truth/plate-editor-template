@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { cn } from '@udecode/cn';
 import { TElement } from '@udecode/plate';
@@ -39,30 +39,31 @@ import {
   IndentIcon,
   OutdentIcon,
   PaletteIcon,
-  RefreshCwIcon,
   ScissorsIcon,
   SparklesIcon,
   Trash2,
 } from 'lucide-react';
 
 import { getBlockType, setBlockType } from '@/components/editor/transforms';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/plate-ui/dropdown-menu';
 
 import {
   backgroundColorItems,
   ColorIcon,
   textColorItems,
 } from './color-dropdown-menu';
-import {
-  type Action,
-  filterMenuGroups,
-  filterMenuItems,
-  Menu,
-  MenuContent,
-  MenuGroup,
-  MenuItem,
-  MenuTrigger,
-  useComboboxValueState,
-} from './menu';
 import { TooltipButton } from './tooltip';
 import { turnIntoItems } from './turn-into-dropdown-menu';
 
@@ -78,7 +79,6 @@ export const blockMenuItems = {
   askAI: {
     focusEditor: false,
     icon: <SparklesIcon />,
-    keywords: ['generate', 'help', 'chat'],
     label: 'Ask AI',
     shortcut: '⌘+J',
     value: 'askAI',
@@ -88,7 +88,6 @@ export const blockMenuItems = {
   },
   caption: {
     icon: <CaptionsIcon />,
-    keywords: ['alt'],
     label: 'Caption',
     value: 'caption',
     onSelect: ({ editor }: { editor: PlateEditor }) => {
@@ -101,7 +100,6 @@ export const blockMenuItems = {
   },
   copy: {
     icon: <CopyIcon />,
-    keywords: ['copy'],
     label: 'Copy',
     shortcut: '⌘+C',
     value: 'copy',
@@ -112,7 +110,6 @@ export const blockMenuItems = {
   },
   cut: {
     icon: <ScissorsIcon />,
-    keywords: ['cut'],
     label: 'Cut',
     shortcut: '⌘+X',
     value: 'cut',
@@ -124,7 +121,6 @@ export const blockMenuItems = {
   },
   delete: {
     icon: <Trash2 color="red" />,
-    keywords: ['remove'],
     label: 'Delete',
     shortcut: 'Del',
     value: 'delete',
@@ -135,7 +131,6 @@ export const blockMenuItems = {
   duplicate: {
     focusEditor: false,
     icon: <ClipboardCopyIcon />,
-    keywords: ['copy'],
     label: 'Duplicate',
     shortcut: '⌘+D',
     value: 'duplicate',
@@ -186,7 +181,6 @@ export const blockMenuItems = {
   [GROUP.TURN_INTO]: {
     component: TurnIntoMenuItem,
     filterItems: true,
-    icon: <RefreshCwIcon />,
     items: turnIntoItems,
     label: 'Turn into',
     value: GROUP.TURN_INTO,
@@ -195,9 +189,7 @@ export const blockMenuItems = {
 
 const orderedMenuItems = [
   { items: [blockMenuItems.askAI] },
-  {
-    items: [blockMenuItems[GROUP.TURN_INTO]],
-  },
+  { items: [blockMenuItems[GROUP.TURN_INTO]] },
   {
     items: [
       blockMenuItems[GROUP.ALIGN],
@@ -239,7 +231,6 @@ const columnMenuItems = [
 ];
 
 export function BlockMenuItems() {
-  const [searchValue] = useComboboxValueState();
   const selectedBlocks = useBlockSelectionNodes();
   const editor = useEditorRef();
 
@@ -262,153 +253,103 @@ export function BlockMenuItems() {
         [ColumnPlugin.key].includes(item[0].type as any)
       );
 
-    const items = isMedia
-      ? mediaMenuItems
-      : isColumn
-        ? columnMenuItems
-        : orderedMenuItems;
+    switch (true) {
+      case isMedia:
+        return mediaMenuItems;
 
-    return filterMenuGroups(items, searchValue) || items;
-  }, [selectedBlocks, searchValue]);
+      case isColumn:
+        return columnMenuItems;
+
+      default:
+        return orderedMenuItems;
+    }
+  }, [selectedBlocks]);
 
   return (
-    <>
-      {menuGroups.map((group, index) => (
-        <MenuGroup key={index} label={group.label}>
-          {group.items?.map((item: Action) => {
-            const menuItem = blockMenuItems[item.value!];
+    <DropdownMenu defaultOpen>
+      <DropdownMenuTrigger asChild>
+        <div />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-[200px]" align="end">
+        {menuGroups.map((group, index) => (
+          <DropdownMenuGroup key={index}>
+            {group.items?.map((item) => {
+              const menuItem = blockMenuItems[item.value];
 
-            if (menuItem.component) {
-              const ItemComponent = menuItem.component;
-              return <ItemComponent key={item.value} />;
-            }
+              if (menuItem.component) {
+                const ItemComponent = menuItem.component;
+                return <ItemComponent key={item.value} />;
+              }
 
-            return (
-              <MenuItem
-                key={item.value}
-                className={item.value === 'delete' ? 'text-red-500' : ''}
-                onClick={() => {
-                  menuItem.onSelect?.({ editor });
-                  if (menuItem.focusEditor !== false) editor.tf.focus();
-                }}
-                label={menuItem.label}
-                icon={menuItem.icon}
-                shortcut={menuItem.shortcut}
-              />
-            );
-          })}
-        </MenuGroup>
-      ))}
-    </>
+              return (
+                <DropdownMenuItem
+                  key={item.value}
+                  onClick={() => {
+                    menuItem.onSelect?.({ editor });
+                    if (menuItem.focusEditor !== false) editor.tf.focus();
+                  }}
+                >
+                  <span>{menuItem.icon}</span>
+                  <span
+                    className={item.value === 'delete' ? 'text-red-500' : ''}
+                  >
+                    {menuItem.label}
+                  </span>
+
+                  {menuItem.shortcut && (
+                    <DropdownMenuShortcut>
+                      {menuItem.shortcut}
+                    </DropdownMenuShortcut>
+                  )}
+                </DropdownMenuItem>
+              );
+            })}
+          </DropdownMenuGroup>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
 function AlignMenuItem() {
-  const [searchValue] = useComboboxValueState();
   const editor = useEditorRef();
   const value = useBlockSelectionFragmentProp({
     key: 'align',
     defaultValue: 'left',
   });
 
-  const menuItems = useMemo(() => {
-    return filterMenuItems(blockMenuItems[GROUP.ALIGN], searchValue);
-  }, [searchValue]);
-
-  const content = (
-    <>
-      {menuItems.map((item) => (
-        <MenuItem
-          key={item.value}
-          checked={value === item.value}
-          onClick={() => {
-            editor
-              .getTransforms(BlockSelectionPlugin)
-              .blockSelection.setNodes({ align: item.value });
-            editor.tf.focus();
-          }}
-          label={item.label}
-          icon={item.icon}
-        />
-      ))}
-    </>
-  );
-
-  if (searchValue)
-    return (
-      <MenuGroup label={blockMenuItems[GROUP.ALIGN].label}>{content}</MenuGroup>
-    );
+  const menuItems = blockMenuItems[GROUP.ALIGN].items;
 
   return (
-    <Menu
-      placement="right"
-      trigger={
-        <MenuTrigger
-          label={blockMenuItems[GROUP.ALIGN].label}
-          icon={blockMenuItems[GROUP.ALIGN].icon}
-        />
-      }
-    >
-      <MenuContent portal>
-        <MenuGroup>{content}</MenuGroup>
-      </MenuContent>
-    </Menu>
-  );
-}
-
-function IndentMenuItem() {
-  const [searchValue] = useComboboxValueState();
-  const editor = useEditorRef();
-
-  const menuItems = useMemo(() => {
-    return filterMenuItems(blockMenuItems[GROUP.INDENT], searchValue);
-  }, [searchValue]);
-
-  const content = (
-    <>
-      {menuItems.map((item) => (
-        <MenuItem
-          key={item.value}
-          onClick={() => {
-            editor
-              .getTransforms(BlockSelectionPlugin)
-              .blockSelection.setIndent(item.value === 'indent' ? 1 : -1);
-
-            editor.tf.focus();
-          }}
-          label={item.label}
-          icon={item.icon}
-        />
-      ))}
-    </>
-  );
-
-  if (searchValue)
-    return (
-      <MenuGroup label={blockMenuItems[GROUP.INDENT].label}>
-        {content}
-      </MenuGroup>
-    );
-
-  return (
-    <Menu
-      placement="right"
-      trigger={
-        <MenuTrigger
-          label={blockMenuItems[GROUP.INDENT].label}
-          icon={blockMenuItems[GROUP.INDENT].icon}
-        />
-      }
-    >
-      <MenuContent portal>
-        <MenuGroup>{content}</MenuGroup>
-      </MenuContent>
-    </Menu>
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        {blockMenuItems[GROUP.ALIGN].icon}
+        {blockMenuItems[GROUP.ALIGN].label}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent>
+          {menuItems.map((item) => (
+            <DropdownMenuCheckboxItem
+              key={item.value}
+              checked={value === item.value}
+              onClick={() => {
+                editor
+                  .getTransforms(BlockSelectionPlugin)
+                  .blockSelection.setNodes({ align: item.value });
+                editor.tf.focus();
+              }}
+            >
+              {item.icon}
+              {item.label}
+            </DropdownMenuCheckboxItem>
+          ))}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
   );
 }
 
 function ColorMenuItem() {
-  const [searchValue] = useComboboxValueState();
   const editor = useEditorRef();
 
   const color = useBlockSelectionFragmentProp({
@@ -434,69 +375,92 @@ function ColorMenuItem() {
     editor.getApi(BlockSelectionPlugin).blockSelection.focus();
   };
 
-  const menuGroups = useMemo(() => {
-    return filterMenuGroups(blockMenuItems[GROUP.COLOR].items, searchValue);
-  }, [searchValue]);
-
-  const content = (
-    <>
-      {menuGroups.map((menuGroup) => (
-        <MenuGroup key={menuGroup.group} label={menuGroup.label}>
-          <MenuItem className="hover:bg-transparent">
-            <div className="m-auto grid grid-cols-5 gap-1 p-1">
-              {menuGroup.items?.map((item, index) => (
-                <TooltipButton
-                  key={index}
-                  size="icon"
-                  variant="ghost"
-                  className={cn(
-                    'border hover:border-2',
-                    menuGroup.group === GROUP.COLOR
-                      ? 'rounded'
-                      : 'rounded-full',
-                    {
-                      'border-2 bg-muted':
-                        (menuGroup.group === GROUP.COLOR &&
-                          color === item.value) ||
-                        (menuGroup.group === GROUP.BACKGROUND &&
-                          background === item.value),
-                    }
-                  )}
-                  onClick={() =>
-                    handleColorChange(menuGroup.group!, item.value!)
-                  }
-                  tooltip={item.label}
-                >
-                  <ColorIcon value={item.value!} group={menuGroup.group!} />
-                </TooltipButton>
-              ))}
-            </div>
-          </MenuItem>
-        </MenuGroup>
-      ))}
-    </>
-  );
-
-  if (searchValue) return content;
+  const menuGroups = blockMenuItems[GROUP.COLOR].items;
 
   return (
-    <Menu
-      placement="right"
-      trigger={
-        <MenuTrigger
-          label={blockMenuItems[GROUP.COLOR].label}
-          icon={blockMenuItems[GROUP.COLOR].icon}
-        />
-      }
-    >
-      <MenuContent portal>{content}</MenuContent>
-    </Menu>
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        {blockMenuItems[GROUP.COLOR].icon}
+        {blockMenuItems[GROUP.COLOR].label}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent>
+          {menuGroups.map((menuGroup) => (
+            <DropdownMenuGroup key={menuGroup.group} label={menuGroup.label}>
+              <DropdownMenuItem className="focus:bg-transparent">
+                <div className="m-auto grid grid-cols-5 gap-1 p-1">
+                  {menuGroup.items?.map((item, index) => (
+                    <TooltipButton
+                      key={index}
+                      size="icon"
+                      variant="ghost"
+                      className={cn(
+                        'border hover:border-2',
+                        menuGroup.group === GROUP.COLOR
+                          ? 'rounded'
+                          : 'rounded-full',
+                        {
+                          'border-2 bg-accent':
+                            (menuGroup.group === GROUP.COLOR &&
+                              color === item.value) ||
+                            (menuGroup.group === GROUP.BACKGROUND &&
+                              background === item.value),
+                        }
+                      )}
+                      onClick={() =>
+                        handleColorChange(menuGroup.group!, item.value!)
+                      }
+                      tooltip={item.label}
+                    >
+                      <ColorIcon value={item.value!} group={menuGroup.group!} />
+                    </TooltipButton>
+                  ))}
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          ))}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  );
+}
+
+function IndentMenuItem() {
+  const editor = useEditorRef();
+
+  const menuItems = blockMenuItems[GROUP.INDENT].items;
+
+  return (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        {blockMenuItems[GROUP.INDENT].icon}
+        {blockMenuItems[GROUP.INDENT].label}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent>
+          {menuItems.map((item) => (
+            <DropdownMenuItem
+              key={item.value}
+              onClick={() => {
+                editor
+                  .getTransforms(BlockSelectionPlugin)
+                  .blockSelection.setIndent(item.value === 'indent' ? 1 : -1);
+
+                editor.tf.focus();
+              }}
+            >
+              {item.icon}
+              {item.label}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
   );
 }
 
 function TurnIntoMenuItem() {
   const editor = useEditorRef();
-  const [searchValue] = useComboboxValueState();
 
   const value = useBlockSelectionFragmentProp({
     defaultValue: ParagraphPlugin.key,
@@ -513,26 +477,21 @@ function TurnIntoMenuItem() {
     editor.getApi(BlockSelectionPlugin).blockSelection.focus();
   };
 
-  const menuItems = useMemo(() => {
-    return filterMenuItems(blockMenuItems[GROUP.TURN_INTO], searchValue);
-  }, [searchValue]);
+  const menuItems = blockMenuItems[GROUP.TURN_INTO].items;
 
   return (
-    <MenuItem className="hover:bg-transparent">
-      <div className="m-auto grid grid-cols-5 gap-2 p-2">
-        {menuItems.map((item) => (
-          <TooltipButton
-            key={item.value}
-            size="icon"
-            variant="ghost"
-            className={cn(value === item.value && 'bg-muted')}
-            onClick={() => handleTurnInto(item.value!)}
-            tooltip={item.label}
-          >
-            {item.icon}
-          </TooltipButton>
-        ))}
-      </div>
-    </MenuItem>
+    <DropdownMenuItem className="m-auto grid grid-cols-5 gap-1 focus:bg-transparent">
+      {menuItems.map((item) => (
+        <TooltipButton
+          key={item.value}
+          variant="ghost"
+          className={cn(value === item.value && 'bg-accent', 'h-8 w-8')}
+          onClick={() => handleTurnInto(item.value!)}
+          tooltip={item.label}
+        >
+          {item.icon}
+        </TooltipButton>
+      ))}
+    </DropdownMenuItem>
   );
 }
